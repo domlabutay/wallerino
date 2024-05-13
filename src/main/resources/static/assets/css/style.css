@@ -1,19 +1,64 @@
-
-h1 {
-    margin-left: 30px;
-    margin-top: 200px;
-    font-weight: bold;
-    animation-duration: 1s;
-    animation-name: swoop;
+.blog-header-logo {
+	font-family: "Jaro", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+	font-size: 2.25rem;
+	text-shadow: 5px 5px 2px black;
 }
 
-@keyframes swoop {
-    from {
-        margin-left: 100%;
-        width: 300%;
-    }
-    to {
-        margin-bottom: 0%;
-        width: 100%;
-    }
+.blog-header-logo:hover {
+	text-decoration: none;
 }
+
+.landing {
+	font-family: "Poetsen One", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+	font-size: 2.25rem;
+}
+
+.nav-header {
+	font-size: 1.5rem;
+}
+
+.row {
+	margin-bottom: 0;
+}
+
+#sourceImage,
+.image-controls,
+.image-save,
+.preset-filters {
+	display: none;
+}
+
+.image-preview {
+	/*display: flex;*/
+	justify-content: center;
+	margin-top: 20px;
+	margin-left: 100px;
+}
+
+#canvas {
+	max-height: 420px;
+	object-fit: contain;
+}
+
+.home-image {
+	overflow: hidden;
+	border-radius: 15px;
+	box-shadow: 10px 10px 5px black;
+}
+
+.sliding-background {
+	background: url("https://images.unsplash.com/photo-1714334544535-4c5eddeb0ec1?q=80&w=3306&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") repeat-x;
+	height: 560px;
+	width: 5076px;
+	animation: slide 60s linear infinite;
+}
+
+@keyframes slide{
+	0% {
+		transform: translate3d(0, 0, 0);
+	}
+	100% {
+		transform: translate3d(-1692px, 0, 0);
+	}
+}
+
