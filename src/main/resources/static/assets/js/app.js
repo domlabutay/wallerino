@@ -1,3 +1,4 @@
+
 // Reset all the slider values to there default values
 // Get the source image to be edited
 let image = document.getElementById('sourceImage');
@@ -25,13 +26,14 @@ function uploadImage(event) {
 		// Set the canvas the same width and height of the image
 		canvas.width = this.width;
 		canvas.height = this.height;
+		canvas.style.display = "block";
 		canvas.crossOrigin = "anonymous";
 		applyFilter();
 	};
 
 	// Show the image editor controls and hide the help text
 	document.getElementById("image-controls").style.display = 'block';
-	document.getElementById("image-preview").style.display = 'flex';
+	document.getElementById("image-preview").style.display = 'block';
 
 	document.getElementById("preset-filters").style.display = 'block';
 	document.getElementById("image-save").style.display = 'block';
@@ -40,7 +42,7 @@ function uploadImage(event) {
 	document.getElementById("start").style.display = "none";
 
 
-};
+}
 
 // This function is used to update the image
 // along with all the filter values

@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+
 
 <head><script th:src="@{/assets/js/color-modes.js}"></script>
 
@@ -39,22 +39,135 @@
         </div>
     </header>
 </div>
+<hr/>
 
 
 <!-- Hidden image that will be used for
 holding the source image -->
 <img id="sourceImage" crossorigin="anonymous">
-<!--<div class="container py-6">-->
 
-<!--    <div class="p-5 mb-4 bg-body-tertiary rounded-3">-->
-        <div id="image-preview" class="d-flex justify-content-center" style="display: none; margin-bottom: 50px;">
+<div class="row" style="padding-top:10px;">
+    <div class="col">
+        <div id="image-preview" class="d-flex justify-content-center" style="margin-bottom: 50px;">
 
             <!-- Canvas that will hold the
             image to be edited -->
-            <canvas id="canvas" class="border border-4 border-white" height="0"></canvas>
+            <canvas id="canvas" class="border border-4 border-white" height="0" style="display: none;"></canvas>
         </div>
-<!--    </div>-->
-<!--</div>-->
+    </div>
+    <div class="col">
+        <div id="image-controls" style="display: none; padding-right: 50px;">
+
+            <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+
+                <h4 class="text-center" style="padding-bottom:15px">
+                    Image Controls
+                </h4>
+                <div class="row">
+                    <div class="col">
+                        <label for="brightnessSlider" class="form-label">
+                            Brightness
+                        </label>
+                        <input id="brightnessSlider"
+                               type="range" value="100"
+                               min="0" max="300"
+                               onchange="applyFilter()"
+                               class="form-range">
+
+                    </div>
+                    <div class="col">
+					<span class="form-range">
+						<label for="contrastSlider" class="form-label">
+						    Contrast
+						</label>
+						<input id="contrastSlider"
+                               type="range" value="100"
+                               min="0" max="200"
+                               onchange="applyFilter()"
+                               class="form-range">
+					</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+					<span class="form-range">
+						<label for="grayscaleSlider" class="form-label">
+						    Grayscale
+						</label>
+						<input id="grayscaleSlider"
+                               type="range" value="0"
+                               min="0" max="100"
+                               onchange="applyFilter()"
+                               class="form-range">
+					</span>
+                    </div>
+                    <div class="col">
+					<span class="form-range">
+						<label for="saturationSlider">
+						Saturation
+						</label>
+						<input id="saturationSlider"
+                               type="range" value="100"
+                               min="0" max="300"
+                               onchange="applyFilter()"
+                               class="form-range">
+					</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+					<span class="form-range">
+						<label for="sepiaSlider">
+						Sepia
+						</label>
+						<input id="sepiaSlider"
+                               type="range" value="0"
+                               min="0" max="200"
+                               onchange="applyFilter()"
+                               class="form-range">
+					</span>
+                    </div>
+                    <div class="col">
+					<span class="range-field">
+						<label for="hueRotateSlider">
+						Hue
+						</label>
+						<input id="hueRotateSlider"
+                               type="range" value="0"
+                               min="0" max="360"
+                               onchange="applyFilter()"
+                               class="form-range">
+					</span>
+                    </div>
+                </div>
+                <div id="preset-filters" style="display: none;">
+                    <h5 style="padding-bottom: 10px; padding-top: 10px;">
+                        Preset Filters
+                    </h5>
+                    <button class="btn btn-primary" type="button"
+                            onclick="brightenFilter()">
+                        Brighten
+                    </button>
+                    <button class="btn btn-primary" type="button"
+                            onclick="bwFilter()">
+                        Black & White
+                    </button>
+                    <button class="btn btn-primary" type="button"
+                            onclick="funkyFilter()">
+                        Funky
+                    </button>
+                    <button class="btn btn-primary" type="button"
+                            onclick="vintageFilter()">
+                        Vintage
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div id="start">
     <div class="container home-image">
@@ -86,125 +199,26 @@ holding the source image -->
         <a id="link"></a>
 
         <!-- File Selector for uploading the image -->
+
         <div class="mb-3">
             <label for="formFile" class="form-label">Upload Image</label>
             <input class="form-control" type="file" accept="image/*" id="formFile"
                    onchange="uploadImage(event)">
         </div>
-    </div>
-    <div id="image-controls" style="display: none;">
-
-    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-
-        <h4 class="text-center" style="padding-bottom:15px">
-            Image Controls
-        </h4>
-            <div class="row">
-                <div class="col">
-                        <label for="brightnessSlider" class="form-label">
-                            Brightness
-                        </label>
-                        <input id="brightnessSlider"
-                               type="range" value="100"
-                               min="0" max="300"
-                               onchange="applyFilter()"
-                               class="form-range">
-
-                </div>
-                <div class="col">
-					<span class="form-range">
-						<label for="contrastSlider" class="form-label">
-						    Contrast
-						</label>
-						<input id="contrastSlider"
-                               type="range" value="100"
-                               min="0" max="200"
-                               onchange="applyFilter()"
-                               class="form-range">
-					</span>
-                </div>
+        <form th:action="@{/searched}" th:object="${queryForm}" th:method="post">
+            <div class="mb-3">
+                <label for="searchTerm" class="form-label">Search on Unsplash</label>
+                <input type="text" class="form-control" placeholder="Search" id="searchTerm"
+                       th:field="*{searchTerm}">
             </div>
+        </form>
 
-            <div class="row">
-                <div class="col">
-					<span class="form-range">
-						<label for="grayscaleSlider" class="form-label">
-						    Grayscale
-						</label>
-						<input id="grayscaleSlider"
-                               type="range" value="0"
-                               min="0" max="100"
-                               onchange="applyFilter()"
-                               class="form-range">
-					</span>
-                </div>
-                <div class="col">
-					<span class="form-range">
-						<label for="saturationSlider">
-						Saturation
-						</label>
-						<input id="saturationSlider"
-                               type="range" value="100"
-                               min="0" max="300"
-                               onchange="applyFilter()"
-                               class="form-range">
-					</span>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-					<span class="form-range">
-						<label for="sepiaSlider">
-						Sepia
-						</label>
-						<input id="sepiaSlider"
-                               type="range" value="0"
-                               min="0" max="200"
-                               onchange="applyFilter()"
-                               class="form-range">
-					</span>
-                </div>
-                <div class="col">
-					<span class="range-field">
-						<label for="hueRotateSlider">
-						Hue
-						</label>
-						<input id="hueRotateSlider"
-                               type="range" value="0"
-                               min="0" max="360"
-                               onchange="applyFilter()"
-                               class="form-range">
-					</span>
-                </div>
-                </div>
-        </div>
     </div>
+
     <!-- Buttons that will be used to change
 the values to preset ones -->
-    <div id="preset-filters" style="display: none;">
-        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-            <h5 style="padding-bottom: 10px">
-                Preset Filters
-            </h5>
-            <button class="btn btn-primary" type="button"
-                    onclick="brightenFilter()">
-                Brighten
-            </button>
-            <button class="btn btn-primary" type="button"
-                    onclick="bwFilter()">
-                Black & White
-            </button>
-            <button class="btn btn-primary" type="button"
-                    onclick="funkyFilter()">
-                Funky
-            </button>
-            <button class="btn btn-primary" type="button"
-                    onclick="vintageFilter()">
-                Vintage
-            </button>
-        </div>
-    </div>
+
 
 
 
